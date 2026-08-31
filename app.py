@@ -25,6 +25,7 @@ from flask import Flask, render_template, request, jsonify, Response
 from database import get_connection, init_db
 
 app = Flask(__name__)
+init_db()
 
 REQUIRED_COLUMNS = {"order_date", "region", "category", "product", "quantity", "unit_price"}
 
