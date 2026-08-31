@@ -50,8 +50,8 @@
       <div class="data-toolbar">
         <select class="pill-select" id="regionFilter"><option value="all">All regions</option></select>
         <select class="pill-select" id="categoryFilter"><option value="all">All categories</option></select>
-        <input type="date" class="pill-date" id="startDate">
-        <input type="date" class="pill-date" id="endDate">
+        <input type="text" class="pill-date" id="startDate" placeholder="DD-MM-YYYY" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'">
+        <input type="text" class="pill-date" id="endDate" placeholder="DD-MM-YYYY" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'">
         <span class="upload-inline" id="uploadStatus"></span>
         <div class="toolbar-spacer"></div>
         <button class="btn-ghost" id="addMoreBtn">Add more data</button>
