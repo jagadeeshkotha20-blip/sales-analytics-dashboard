@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sales Analytics</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/chart.umd.min.js') }}"></script>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="brand">
+      <svg class="brand-mark" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="1" y1="4" x2="17" y2="4" stroke="#c9a24b" stroke-width="1.4"/>
+        <line x1="1" y1="9" x2="13" y2="9" stroke="#c9a24b" stroke-width="1.4" opacity="0.7"/>
+        <line x1="1" y1="14" x2="9" y2="14" stroke="#c9a24b" stroke-width="1.4" opacity="0.4"/>
+      </svg>
+      <div class="wordmark">Ledger<em>line</em></div>
+    </div>
+    <div class="topbar-meta" id="lastUpdated"></div>
+  </div>
+
+  <div class="container">
+
+    <!-- Empty state: shown until data exists -->
+    <div id="emptyState" class="empty-hero hidden">
+      <h1>See where the revenue is actually coming from.</h1>
+      <p>Upload a sales CSV and get a live breakdown by date, region, and product &mdash; no setup, nothing saved anywhere but your own machine.</p>
+
+      <div class="dropzone" id="dropzone">
+        <svg class="dz-icon" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 4V19M15 4L9.5 9.5M15 4L20.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M5 21V23.5C5 24.6046 5.89543 25.5 7 25.5H23C24.1046 25.5 25 24.6046 25 23.5V21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div class="dz-title">Drop a CSV here, or click to choose one</div>
+        <div class="dz-sub">order_date, region, category, product, quantity, unit_price</div>
+      </div>
+      <input type="file" id="fileInput" accept=".csv" style="display:none">
+
+      <div>
+        <button class="sample-link" id="sampleBtn">Try it with sample data</button>
+      </div>
+      <div class="upload-error hidden" id="emptyError"></div>
+    </div>
+
+    <!-- Data view: shown once there is data -->
+    <div id="dataView" class="hidden">
+
+      <div class="data-toolbar">
+        <select class="pill-select" id="regionFilter"><option value="all">All regions</option></select>
+        <select class="pill-select" id="categoryFilter"><option value="all">All categories</option></select>
+        <input type="date" class="pill-date" id="startDate">
+        <input type="date" class="pill-date" id="endDate">
+        <span class="upload-inline" id="uploadStatus"></span>
+        <div class="toolbar-spacer"></div>
+        <button class="btn-ghost" id="addMoreBtn">Add more data</button>
+        <button class="btn-ghost" id="resetBtn">Clear all</button>
+        <button class="btn-gold" id="exportBtn">Export CSV</button>
+        <input type="file" id="fileInputToolbar" accept=".csv" style="display:none">
+      </div>
+
+      <div class="kpi-strip">
+        <div class="kpi">
+          <div class="kpi-value" id="kpiRevenue">&mdash;</div>
+          <div class="kpi-label">Total revenue</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-value" id="kpiUnits">&mdash;</div>
+          <div class="kpi-label">Units sold</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-value" id="kpiOrders">&mdash;</div>
+          <div class="kpi-label">Orders</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-value" id="kpiAOV">&mdash;</div>
+          <div class="kpi-label">Average order value</div>
+        </div>
+      </div>
+
+      <div class="chart-grid">
+        <div class="panel">
+          <h3>Revenue over time</h3>
+          <canvas id="trendChart" height="120"></canvas>
+        </div>
+        <div class="panel">
+          <h3>Revenue by region</h3>
+          <canvas id="regionChart" height="120"></canvas>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="panel">
+          <h3>Top products</h3>
+          <canvas id="productChart" height="160"></canvas>
+        </div>
+        <div class="panel">
+          <h3>Recent orders</h3>
+          <div class="table-scroll" id="tableWrap"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

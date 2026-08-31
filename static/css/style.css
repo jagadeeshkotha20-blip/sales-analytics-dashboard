@@ -1,0 +1,470 @@
+/* ==========================================================================
+   Fonts (self-hosted -- no external requests, nothing for a browser's
+   tracking/ad blocker to intercept)
+   ========================================================================== */
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("/static/fonts/fraunces-400.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Fraunces";
+  src: url("/static/fonts/fraunces-500.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Fraunces";
+  src: url("/static/fonts/fraunces-600.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("/static/fonts/inter-400.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("/static/fonts/inter-500.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("/static/fonts/inter-600.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("/static/fonts/inter-700.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+
+/* ==========================================================================
+   Tokens
+   ========================================================================== */
+
+:root {
+  --bg: #0e1116;
+  --bg-raised: #12151c;
+  --border: #242a35;
+  --border-soft: #1a1f28;
+  --text: #edeff3;
+  --text-dim: #8a93a3;
+  --text-faint: #565d6b;
+  --gold: #c9a24b;
+  --gold-soft: rgba(201, 162, 75, 0.14);
+  --gold-line: rgba(201, 162, 75, 0.35);
+  --positive: #3fb27f;
+  --negative: #e2636e;
+  --west: #c9a24b;
+  --north: #3fb27f;
+  --east: #6c9bd1;
+  --south: #b97fd1;
+  --radius: 3px;
+  --serif: "Fraunces", Georgia, serif;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  min-height: 100vh;
+}
+
+body {
+  background-image:
+    radial-gradient(ellipse 900px 500px at 50% -5%, rgba(201, 162, 75, 0.08), transparent 60%),
+    repeating-linear-gradient(to bottom, transparent, transparent 35px, rgba(201, 162, 75, 0.035) 35px, rgba(201, 162, 75, 0.035) 36px);
+  background-repeat: no-repeat, repeat;
+}
+
+::selection { background: var(--gold-soft); color: var(--text); }
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 40px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-mark {
+  display: block;
+}
+
+.wordmark {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 1.3rem;
+  letter-spacing: 0.2px;
+  color: var(--text);
+}
+
+.wordmark em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.topbar-meta {
+  font-size: 0.78rem;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+  min-height: 1em;
+}
+
+/* ==========================================================================
+   Layout
+   ========================================================================== */
+
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 36px 40px 80px;
+}
+
+/* ==========================================================================
+   Empty state / upload
+   ========================================================================== */
+
+.empty-hero {
+  padding: 110px 20px 120px;
+  text-align: center;
+  animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .empty-hero { animation: none; }
+}
+
+.empty-hero h1 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 2.5rem;
+  line-height: 1.24;
+  margin: 0 0 14px;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+  letter-spacing: -0.2px;
+}
+
+.empty-hero p {
+  color: var(--text-dim);
+  font-size: 1rem;
+  max-width: 430px;
+  margin: 0 auto 40px;
+  line-height: 1.65;
+}
+
+.dropzone {
+  max-width: 500px;
+  margin: 0 auto;
+  border: 1px dashed var(--gold-line);
+  border-radius: 6px;
+  padding: 52px 24px;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+  background: linear-gradient(180deg, rgba(201, 162, 75, 0.03), transparent);
+}
+
+.dropzone:hover, .dropzone.drag-over {
+  border-color: var(--gold);
+  background: var(--gold-soft);
+  box-shadow: 0 0 0 1px var(--gold-line), 0 12px 32px -12px rgba(201, 162, 75, 0.25);
+}
+
+.dz-icon {
+  margin: 0 auto 18px;
+  display: block;
+  color: var(--gold);
+}
+
+.dropzone .dz-title {
+  font-size: 0.98rem;
+  color: var(--text);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.dropzone .dz-sub {
+  font-size: 0.78rem;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1px;
+}
+
+.sample-link {
+  display: inline-block;
+  margin-top: 26px;
+  font-size: 0.84rem;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 2px;
+  cursor: pointer;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  font-family: var(--sans);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.sample-link:hover { color: var(--gold); border-color: var(--gold-line); }
+
+.upload-error {
+  margin-top: 18px;
+  font-size: 0.85rem;
+  color: var(--negative);
+}
+
+/* ==========================================================================
+   Data toolbar (shown once data exists)
+   ========================================================================== */
+
+.data-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 34px;
+  animation: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .data-toolbar { animation: none; }
+}
+
+.pill-select, .pill-date {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-family: var(--sans);
+  transition: border-color 0.15s ease;
+}
+
+.pill-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 30px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%238a93a3' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 13px center;
+  cursor: pointer;
+}
+
+.pill-date {
+  color-scheme: dark;
+}
+
+.pill-date::-webkit-calendar-picker-indicator {
+  filter: invert(64%) sepia(21%) saturate(346%) hue-rotate(357deg) brightness(94%) contrast(87%);
+  cursor: pointer;
+}
+
+.pill-select:hover, .pill-date:hover { border-color: var(--gold-line); }
+.pill-select:focus, .pill-date:focus { outline: none; border-color: var(--gold-line); }
+
+.toolbar-spacer { flex: 1; }
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  font-family: var(--sans);
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.btn-ghost:hover { border-color: var(--gold-line); color: var(--gold); }
+
+.btn-gold {
+  background: var(--gold);
+  border: 1px solid var(--gold);
+  color: #16130a;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--sans);
+  transition: filter 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-gold:hover { filter: brightness(1.08); box-shadow: 0 6px 18px -8px rgba(201, 162, 75, 0.5); }
+
+.upload-inline {
+  font-size: 0.78rem;
+  color: var(--text-faint);
+}
+.upload-inline.ok { color: var(--positive); }
+.upload-inline.err { color: var(--negative); }
+
+/* ==========================================================================
+   KPI strip -- deliberately not cards: a ticker with hairline dividers
+   ========================================================================== */
+
+.kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--border-soft);
+  border-bottom: 3px double var(--border);
+  margin-bottom: 44px;
+  animation: rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 0.05s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kpi-strip { animation: none; }
+}
+
+.kpi {
+  padding: 22px 26px;
+  border-left: 1px solid var(--border-soft);
+}
+.kpi:first-child { border-left: none; }
+
+.kpi .kpi-value {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 2.1rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  line-height: 1.1;
+  letter-spacing: -0.3px;
+}
+
+.kpi .kpi-label {
+  margin-top: 6px;
+  font-size: 0.78rem;
+  color: var(--text-faint);
+}
+
+/* ==========================================================================
+   Panels
+   ========================================================================== */
+
+.panel {
+  background: var(--bg-raised);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  animation: rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: border-color 0.2s ease;
+}
+
+.panel:hover { border-color: var(--border); }
+
+@media (prefers-reduced-motion: reduce) {
+  .panel { animation: none; }
+}
+
+.chart-grid .panel:nth-child(2) { animation-delay: 0.07s; }
+.two-col .panel:nth-child(2) { animation-delay: 0.07s; }
+
+.panel h3 {
+  margin: 0 0 16px;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 16px;
+}
+
+/* ==========================================================================
+   Table
+   ========================================================================== */
+
+.table-scroll { overflow-x: auto; overflow-y: auto; max-height: 420px; }
+
+.table-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+.table-scroll::-webkit-scrollbar-track { background: transparent; }
+.table-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.table-scroll::-webkit-scrollbar-thumb:hover { background: var(--text-faint); }
+
+table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+
+th {
+  text-align: left;
+  padding: 0 10px 10px 0;
+  color: var(--text-faint);
+  font-weight: 500;
+  font-size: 0.72rem;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  background: var(--bg-raised);
+}
+
+td {
+  padding: 9px 10px 9px 0;
+  border-bottom: 1px solid var(--border-soft);
+  white-space: nowrap;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+tr:last-child td { border-bottom: none; }
+
+.table-empty {
+  color: var(--text-faint);
+  font-size: 0.85rem;
+  padding: 30px 0;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Utility
+   ========================================================================== */
+
+.hidden { display: none !important; }
+
+@media (max-width: 900px) {
+  .container { padding: 28px 20px 60px; }
+  .topbar { padding: 18px 20px; }
+  .kpi-strip { grid-template-columns: repeat(2, 1fr); }
+  .kpi:nth-child(3) { border-left: none; }
+  .chart-grid, .two-col { grid-template-columns: 1fr; }
+}
