@@ -112,5 +112,14 @@
   </div>
 
   <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+            navigator.serviceWorker.register(
+                "{{ url_for('static', filename='service-worker.js') }}"
+            );
+        });
+    }
+  </script>
 </body>
 </html>
