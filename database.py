@@ -1,28 +1,58 @@
 """
 database.py
+
 SQL schema for the Sales Analytics Dashboard.
-Single-tenant (no login) -- this is a local tool for one person's data,
-so there's no users table or per-account isolation. Uses SQLite for
-simplicity; the SQL itself ports cleanly to MySQL/PostgreSQL.
+Uses SQLite for simplicity.
+
+For Vercel:
+- The deployed project filesystem is read-only.
+- SQLite is copied to /tmp, which is writable.
+- Local development continues using dashboard.db.
 """
 
-import sqlite3
 import os
+import shutil
+import sqlite3
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "dashboard.db")
+
+# Original database bundled with the project
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+SOURCE_DB_PATH = os.path.join(BASE_DIR, "dashboard.db")
+
+
+# Vercel provides a writable /tmp directory.
+# Locally, continue using dashboard.db.
+if os.environ.get("VERCEL") == "1":
+    DB_PATH = "/tmp/dashboard.db"
+
+    # Copy the bundled database to the writable /tmp directory
+    # the first time the Vercel function starts.
+    if not os.path.exists(DB_PATH):
+        shutil.copy2(SOURCE_DB_PATH, DB_PATH)
+else:
+    DB_PATH = SOURCE_DB_PATH
 
 
 def get_connection():
-    # timeout=15 makes SQLite wait instead of failing instantly if the file
-    # is briefly locked (common on Windows when a folder is synced by
-    # OneDrive). WAL mode also reduces lock contention.
+    """
+    Create and return a SQLite database connection.
+    """
+
     conn = sqlite3.connect(DB_PATH, timeout=15)
+
     conn.row_factory = sqlite3.Row
+
+    # WAL works because the Vercel database is now inside /tmp.
     conn.execute("PRAGMA journal_mode = WAL")
+
     return conn
 
 
 def init_db():
+    """
+    Create required database tables if they don't already exist.
+    """
+
     conn = get_connection()
     cur = conn.cursor()
 
